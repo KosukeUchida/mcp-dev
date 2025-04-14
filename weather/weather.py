@@ -59,6 +59,8 @@ async def get_alerts(state: str) -> str:
     url = f"{NWS_API_BASE}/alerts/active/area/{state}"
     data = await make_nws_request(url)
 
+    print(f"get_alerts: {url}")
+
     if not data or "features" not in data:
         return "Unable to fetch alerts or no alerts found."
     
@@ -80,6 +82,8 @@ async def get_forecast(latitude: float, longitude: float) -> str:
     points_url = f"{NWS_API_BASE}/points/{latitude},{longitude}"
     points_data = await make_nws_request(points_url)
 
+    print(f"get_forecast: {points_url}")
+
     if not points_data:
         return "Unable to fetch forecast data for this location."
     
@@ -92,7 +96,7 @@ async def get_forecast(latitude: float, longitude: float) -> str:
     
     # Format the periods into a readable forecast
     periods = forecast_data["properties"]["periods"]
-    forecast = []
+    forecasts = []
     for period in periods[:5]: # Only show next 5 periods
         forecast = f"""
             Name: {period['name']}
@@ -100,9 +104,9 @@ async def get_forecast(latitude: float, longitude: float) -> str:
             Wind: {period['windSpeed']} {period['windDirection']}
             Forecast: {period['detailedForecast']}
         """
-        forecast.append(forecast)
+        forecasts.append(forecast)
 
-    return "\n---\n".join(forecast)
+    return "\n---\n".join(forecasts)
 
 if __name__ == "__main__":
     # Initialize and run the server

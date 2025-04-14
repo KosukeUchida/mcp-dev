@@ -1,0 +1,13 @@
+{
+    "servers": {
+       "weather": {
+            "command": "/usr/local/bin/uv",
+            "args": [
+                "--directory",
+                "/workspaces/mcp-dev/weather",
+                "run",
+                "weather.py"
+            ]
+        }
+    }
+}
